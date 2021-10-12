@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactDOM } from "react-dom";
+import ReactDOM from "react-dom";
 import Grid from './components/Grid.js';
 
 class Game extends React.Component{
@@ -20,7 +20,7 @@ class Game extends React.Component{
 
     render(){
         return <>
-            <Grid size={this.state.gridsize} food={this.state.food} snake={this.state.snake}></Grid>
+            <Grid size={this.state.gridsize} food={this.state.food} snake={this.state.snake} />
         </>
     }
 }

@@ -1,12 +1,11 @@
 import React from "react";
-import { ReactDOM } from "react-dom";
 import Tile from './Tile.js';
 
 class Grid extends React.Component{
 
     constructor(props){
 
-        super(props)
+        super(props);
     }
 
 
