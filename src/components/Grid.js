@@ -13,7 +13,9 @@ class Grid extends React.Component{
 
 
         let grid = Array(this.props.size[0]).fill(Array(this.props.size[1]).fill(null));
-        return grid.map((gridX, indexX)=>{return gridX.map((valueY, indexY) => {return <Tile X={indexX} Y={indexY} snake={this.props.snake} food={this.props.food}></Tile>} )} )
+        return ( <div className="grid"> {grid.map((gridX, indexX)=>
+            {return ( <div className="snake-row"> { gridX.map((valueY, indexY) => {
+                 return <Tile X={indexX} Y={indexY} snake={this.props.snake} food={this.props.food}></Tile>} )  } </div>);  }  )} </div>);
     }
 }
 

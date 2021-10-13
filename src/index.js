@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Grid from './components/Grid.js';
+import "./index.css";
+
+
 
 class Game extends React.Component{
 
@@ -12,8 +15,8 @@ class Game extends React.Component{
         const gridHeight = 7;
         this.state = {
             gridsize: [gridWidth, gridHeight], 
-            food: [], 
-            snake: []
+            food: [3, 6], 
+            snake: [1, 2]
 
         }
     }

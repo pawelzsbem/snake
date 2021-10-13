@@ -1,7 +1,25 @@
 .tile{
-    height: 50px;
-    width: 50px;
-    background-color: blanchedalmond;
-    font-size: small;
+    padding: 10px;
+    display: table-cell;
 
+    background-color: blanchedalmond;
+
+
+}
+
+.snake-row{
+
+    display: table-row;
+}
+
+.grid{
+    display: table;
+}
+
+.food{
+    background-color: red;
+}
+
+.snake{
+    background-color: chartreuse;
 }

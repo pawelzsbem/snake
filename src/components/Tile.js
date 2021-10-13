@@ -1,6 +1,13 @@
 import React from "react";
 import { ReactDOM } from "react-dom";
 
+function tuplesEqual(a0, a1, b0, b1){
+
+    if ((a0===b0)&&(a1===b1)){
+        return true;
+    }
+    return false;
+};
 
 class Tile extends React.Component{
 
@@ -10,12 +17,15 @@ class Tile extends React.Component{
     }
 
     render(){
-        return <>
 
-        <div className="tile">{this.props.X}, {this.props.Y}</div>
+        let ClassN = tuplesEqual(this.props.X, this.props.Y, this.props.food[0], this.props.food[1]) ? "tile food" : "tile";
+        ClassN = tuplesEqual(this.props.X, this.props.Y, this.props.snake[0], this.props.snake[1]) ? "tile snake" : ClassN;
 
-        </>
+        return (<div className={ClassN}>({this.props.X}, {this.props.Y})</div>);
     }
+
 }
+       
+
 
 export default Tile;
