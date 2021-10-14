@@ -17,9 +17,9 @@ function inArray(elemX, elemY, arr){
         return false;
     }
 
-    for (var i = 0; i < arr.length; i+=2){
+    for (var i = 0; i < arr.length; i++){
 
-        if((arr[i] === elemX)&& (arr[i+1]===elemY)){
+        if((arr[i][0] === elemX)&& (arr[i][1] === elemY)){
 
             return true;
         }

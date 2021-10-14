@@ -34,6 +34,10 @@ class Grid extends React.Component{
                     Time elapsed: {this.props.time}
                 </p>
 
+                <p>
+                    Points: {this.props.points}
+                </p>
+
 
 
                  

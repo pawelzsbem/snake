@@ -20,7 +20,7 @@ class Game extends React.Component{
             direction: "left", 
             time: 0,
             length: 1,
-            body: []
+            body: [[2, 2]]
 
         }
         this.onClick = this.onClick.bind(this);
@@ -59,27 +59,25 @@ class Game extends React.Component{
                 newSnake = [parseInt(this.state.gridsize[0]/2), parseInt(this.state.gridsize[1]/2)];
         }
 
-            let newBody = this.state.snake;
-            for(var i = 2; i + 1 < this.state.body.length; i+=2){
-
-                newBody[i] = this.state.body[i-2];
-                newBody[i+1] = this.state.body[i-1];
+            let newBody = [this.state.snake];
+            for(var i = 0; i < this.state.body.length-1; i++){
+                newBody[i+1] = this.state.body[i];
             }
+            
 
         if ((newSnake[0]===this.state.food[0])&&(newSnake[1]===this.state.food[1])){
             let newFood = this.state.food;
+            const last = newBody.length;
+            newBody[last] =  this.state.food.slice();
             
             newFood[0] = Math.floor(Math.random() * this.state.gridsize[0]);
             newFood[1] = Math.floor(Math.random() * this.state.gridsize[1]);
-
-            newBody = [...this.state.body, this.state.snake[0], this.state.snake[1]];
-
 
             this.setState({snake: newSnake, time: this.state.time + 1, food: newFood, body: newBody});
 
         }else{
 
-        this.setState({snake: newSnake, time: this.state.time + 1});
+        this.setState({snake: newSnake, time: this.state.time + 1, body: newBody});
         }
 
 
@@ -87,8 +85,34 @@ class Game extends React.Component{
 
 
     componentDidMount(){
-        this.setState({snake: [parseInt(this.state.gridsize[0]/2), parseInt(this.state.gridsize[1]/2)]});
+        this.setState({snake: [parseInt(this.state.gridsize[0]/2), parseInt(this.state.gridsize[1]/2)], body:  [parseInt(this.state.gridsize[0]/2) + 1, parseInt(this.state.gridsize[1]/2)] });
         setInterval(this.timeElaps, 500);
+
+        document.addEventListener('keydown', (event)=>{this.onKey(event)})
+    }
+
+    onKey(event){
+        let dir = this.state.direction;
+
+        console.log(`key: ${event.code}`);
+        switch (event.code){
+
+            case "ArrowUp":
+                dir = "up";
+                break;
+            case "ArrowDown":
+                dir = "down";
+                break;
+            case "ArrowLeft":
+                dir = "left";
+                break;
+            case "ArrowRight":
+                dir = "right";
+                break;
+
+        }
+        
+        this.setState({direction: dir});
     }
 
     onClick(nxtDir){
@@ -98,7 +122,7 @@ class Game extends React.Component{
 
     render(){
         return <>
-            <Grid size={this.state.gridsize} time={this.state.time} food={this.state.food} snake={this.state.snake} dir={this.state.direction} body={this.state.body} onClick={this.onClick} />
+            <Grid size={this.state.gridsize} time={this.state.time} food={this.state.food} snake={this.state.snake} dir={this.state.direction} body={this.state.body} points={this.state.body.length} onClick={this.onClick} />
         </>
     }
 }
