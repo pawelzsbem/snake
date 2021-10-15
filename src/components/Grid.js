@@ -38,6 +38,14 @@ class Grid extends React.Component{
                     Points: {this.props.points}
                 </p>
 
+                <p>
+                    <button onClick={() => this.props.onReset()}>Reset</button>
+                    <button onClick={()=>this.props.onPause()}>Pause</button>
+                    <button onClick={() => this.props.onGoOn()}>Go On</button>
+                </p>
+
+                <h1>{this.props.reset? "Snake ate itself. Push Reset and Go On to play again" : ""}</h1>
+
 
 
                  

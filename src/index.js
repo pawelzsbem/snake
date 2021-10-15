@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Grid from './components/Grid.js';
 import "./index.css";
+import { inArray } from './components/equal.js';
 
 
 
@@ -11,20 +12,22 @@ class Game extends React.Component{
 
 
         super(props);
-        const gridWidth = 7;
-        const gridHeight = 7;
+        const gridWidth = 20;
+        const gridHeight = 20;
         this.state = {
             gridsize: [gridWidth, gridHeight], 
             food: [3, 6], 
             snake: [1, 2], 
             direction: "left", 
             time: 0,
-            length: 1,
-            body: [[2, 2]]
+            reset: false,
+            body: [[2, 2]], 
+            intval: {}
 
         }
         this.onClick = this.onClick.bind(this);
         this.timeElaps = this.timeElaps.bind(this);
+        this.onReset = this.onReset.bind(this);
     }
 
     timeElaps(){
@@ -64,29 +67,42 @@ class Game extends React.Component{
                 newBody[i+1] = this.state.body[i];
             }
             
-
+        let newFood = this.state.food;
         if ((newSnake[0]===this.state.food[0])&&(newSnake[1]===this.state.food[1])){
-            let newFood = this.state.food;
+            
             const last = newBody.length;
             newBody[last] =  this.state.food.slice();
+           do {
+                newFood[0] = Math.floor(Math.random() * this.state.gridsize[0]);
+                newFood[1] = Math.floor(Math.random() * this.state.gridsize[1]);
+            } while(Boolean(inArray(newFood[0], newFood[1], this.state.body)))
+
             
-            newFood[0] = Math.floor(Math.random() * this.state.gridsize[0]);
-            newFood[1] = Math.floor(Math.random() * this.state.gridsize[1]);
 
-            this.setState({snake: newSnake, time: this.state.time + 1, food: newFood, body: newBody});
-
-        }else{
-
-        this.setState({snake: newSnake, time: this.state.time + 1, body: newBody});
         }
+        
+        if (Boolean(inArray(newSnake[0], newSnake[1], this.state.body)) ){
 
+            this.onPause();
+
+            this.setState({reset: true});
+            
+
+        
+
+        } else{
+        this.setState({snake: newSnake, time: this.state.time + 1, food: newFood, body: newBody});
+    }
 
     }
 
 
     componentDidMount(){
-        this.setState({snake: [parseInt(this.state.gridsize[0]/2), parseInt(this.state.gridsize[1]/2)], body:  [parseInt(this.state.gridsize[0]/2) + 1, parseInt(this.state.gridsize[1]/2)] });
-        setInterval(this.timeElaps, 500);
+        this.setState({snake: [parseInt(this.state.gridsize[0]/2), parseInt(this.state.gridsize[1]/2)], 
+            body:  [parseInt(this.state.gridsize[0]/2) + 1, parseInt(this.state.gridsize[1]/2)],
+            intval: setInterval(this.timeElaps, 500)
+         });
+        
 
         document.addEventListener('keydown', (event)=>{this.onKey(event)})
     }
@@ -120,9 +136,46 @@ class Game extends React.Component{
 
     }
 
+    onReset(){
+        console.log(`reset`);
+        this.setState({
+            
+            food: [3, 6], 
+            snake: [1, 2], 
+            direction: "left", 
+            time: 0,
+            reset: false,
+           
+            body: [[2, 2]]
+
+        });
+        return;
+    }
+
+    onPause(){
+        
+        clearInterval(this.state.intval);
+    }
+
+    onGoOn(){
+        this.setState({intval: setInterval(this.timeElaps, 500)});
+
+    }
+
     render(){
         return <>
-            <Grid size={this.state.gridsize} time={this.state.time} food={this.state.food} snake={this.state.snake} dir={this.state.direction} body={this.state.body} points={this.state.body.length} onClick={this.onClick} />
+            <Grid size={this.state.gridsize} 
+            time={this.state.time}
+            food={this.state.food} 
+            snake={this.state.snake} 
+            dir={this.state.direction}
+            body={this.state.body}
+            points={this.state.body.length}
+            reset={this.state.reset}
+            onClick={() => this.onClick()} 
+            onReset={() => this.onReset()}
+            onPause={() => this.onPause()}
+            onGoOn ={() => this.onGoOn()}/>
         </>
     }
 }

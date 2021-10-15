@@ -42,7 +42,7 @@ class Tile extends React.Component{
         ClassN = tuplesEqual(this.props.X, this.props.Y, this.props.snake[0], this.props.snake[1]) ? "tile snake" : ClassN;
         ClassN = inArray(this.props.X, this.props.Y, this.props.body)? "tile body": ClassN;
 
-        return (<div className={ClassN}>({this.props.X}, {this.props.Y})</div>);
+        return (<div className={ClassN}></div>);
     }
 
 }
